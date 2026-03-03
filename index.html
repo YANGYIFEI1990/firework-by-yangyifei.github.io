@@ -267,7 +267,7 @@
                     if (style === 0) {
                         angle = Math.random() * Math.PI * 2;
                         speed = Math.random() * 5 + 2; // 速度稍快，更有张力
-                        decay = Math.random() * 0.005 + 0.001; // 衰减更慢，持续更久
+                        decay = Math.random() * 0.006 + 0.001; // 衰减更慢，持续更久
                         size = 2.5; // 粒子更大
                         color = `hsl(${parseInt(this.color.match(/\d+/)[0]) + Math.random() * 20 - 10}, 95%, 75%)`;
                     }
@@ -277,7 +277,7 @@
                         angle = t;
                         const r = 16 * Math.pow(Math.sin(t), 3);
                         speed = (Math.random() * 4 + 1) * (r / 16 + 0.5);
-                        decay = Math.random() * 0.004 + 0.002;
+                        decay = Math.random() * 0.005 + 0.002;
                         size = 2.2;
                         color = `hsl(${340 + Math.random() * 20}, 100%, 80%)`; // 亮度提升到80%
                     }
@@ -287,7 +287,7 @@
                         const spiralFactor = 0.08;
                         angle = Math.random() * Math.PI * 2 + (i * spiralFactor);
                         speed = Math.random() * 6 + 1;
-                        decay = Math.random() * 0.006 + 0.001;
+                        decay = Math.random() * 0.007 + 0.001;
                         size = 2.0;
                         color = `hsl(${200 + Math.random() * 30}, 95%, 75%)`; // 亮蓝色系
                     }
@@ -295,7 +295,7 @@
                     else if (style === 3) {
                         angle = Math.random() * Math.PI * 2;
                         speed = Math.random() * 4 + 3;
-                        decay = Math.random() * 0.005 + 0.001;
+                        decay = Math.random() * 0.006 + 0.001;
                         size = 2.0;
                         color = `hsl(${60 + Math.random() * 30}, 100%, 80%)`; // 亮度提升到80%
                         // 额外生成内层粒子，更浓密
@@ -307,7 +307,7 @@
                     else if (style === 4) {
                         angle = Math.random() * Math.PI * 2;
                         speed = Math.random() * 5 + 1;
-                        decay = Math.random() * 0.004 + 0.002;
+                        decay = Math.random() * 0.005 + 0.002;
                         size = 2.0;
                         color = `hsl(${Math.random() * 360}, 95%, 80%)`; // 全色系亮度80%
                     }
@@ -342,7 +342,7 @@
                 this.x += this.vx;
                 this.y += this.vy;
                 // 衰减速度大幅降低，持续时间延长
-                this.alpha -= this.decay;
+                this.alpha -= this.decay * (1 - this.alpha/2);
             }
 
             draw() {
