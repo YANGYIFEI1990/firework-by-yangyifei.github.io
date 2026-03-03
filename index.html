@@ -23,7 +23,6 @@
     z-index: 0;
   }
 
-  /* 星空背景 */
   .stars {
     position: fixed;
     top: 0; left: 0;
@@ -44,61 +43,80 @@
     to   { opacity: 0.9; transform: scale(1.2); }
   }
 
-  /* 远山剪影 */
   .mountains {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 0; left: 0;
     width: 100%;
     z-index: 2;
     pointer-events: none;
   }
 
-  /* UI 层 */
+  /* 全屏按钮 */
+  .fullscreen-btn {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 20;
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(253,220,160,0.25);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .fullscreen-btn:hover {
+    background: rgba(255,200,80,0.15);
+    border-color: rgba(253,220,160,0.6);
+  }
+  .fullscreen-btn svg {
+    width: 20px; height: 20px;
+    fill: none;
+    stroke: rgba(253,220,160,0.85);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
   .ui {
     position: fixed;
     z-index: 10;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
     padding-bottom: 72px;
+    pointer-events: none;
   }
 
   .title {
     position: fixed;
-    top: 40px;
-    left: 50%;
+    top: 40px; left: 50%;
     transform: translateX(-50%);
     text-align: center;
     pointer-events: none;
   }
-
   .title h1 {
     font-family: 'Ma Shan Zheng', cursive;
     font-size: clamp(2rem, 5vw, 3.5rem);
     color: #fde8c0;
-    text-shadow:
-      0 0 20px rgba(255, 180, 60, 0.6),
-      0 0 60px rgba(255, 120, 20, 0.3);
+    text-shadow: 0 0 20px rgba(255,180,60,0.6), 0 0 60px rgba(255,120,20,0.3);
     letter-spacing: 0.2em;
   }
-
   .title p {
     font-size: 0.85rem;
-    color: rgba(253, 220, 160, 0.45);
+    color: rgba(253,220,160,0.45);
     letter-spacing: 0.3em;
     margin-top: 6px;
   }
 
-  /* 按钮 */
   .btn-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    pointer-events: auto;
   }
 
   .btn {
@@ -109,7 +127,6 @@
     padding: 0;
     outline: none;
   }
-
   .btn-inner {
     display: flex;
     align-items: center;
@@ -118,8 +135,8 @@
     border-radius: 60px;
     background: linear-gradient(135deg, #ff6b35, #f7931e, #ffcd3c);
     box-shadow:
-      0 0 30px rgba(255, 140, 30, 0.5),
-      0 0 80px rgba(255, 100, 10, 0.25),
+      0 0 30px rgba(255,140,30,0.5),
+      0 0 80px rgba(255,100,10,0.25),
       inset 0 1px 0 rgba(255,255,255,0.25);
     font-family: 'Ma Shan Zheng', cursive;
     font-size: 1.5rem;
@@ -127,20 +144,14 @@
     letter-spacing: 0.15em;
     transition: transform 0.15s, box-shadow 0.15s;
   }
-
   .btn:hover .btn-inner {
     transform: scale(1.06);
     box-shadow:
-      0 0 50px rgba(255, 140, 30, 0.8),
-      0 0 120px rgba(255, 100, 10, 0.4),
+      0 0 50px rgba(255,140,30,0.8),
+      0 0 120px rgba(255,100,10,0.4),
       inset 0 1px 0 rgba(255,255,255,0.3);
   }
-
-  .btn:active .btn-inner {
-    transform: scale(0.97);
-  }
-
-  /* 光晕脉冲 */
+  .btn:active .btn-inner { transform: scale(0.97); }
   .btn::before {
     content: '';
     position: absolute;
@@ -149,19 +160,17 @@
     background: radial-gradient(ellipse, rgba(255,140,30,0.25) 0%, transparent 70%);
     animation: pulse 2.4s ease-in-out infinite;
   }
-
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.6; }
+    0%,100% { transform: scale(1); opacity: 0.6; }
     50% { transform: scale(1.15); opacity: 1; }
   }
 
   .hint {
     font-size: 0.78rem;
-    color: rgba(253, 220, 160, 0.35);
+    color: rgba(253,220,160,0.35);
     letter-spacing: 0.25em;
   }
 
-  /* 点击涟漪 */
   .ripple {
     position: fixed;
     border-radius: 50%;
@@ -179,19 +188,24 @@
 </head>
 <body>
 
-<!-- 星空 -->
 <div class="stars" id="stars"></div>
-
-<!-- 烟花画布 -->
 <canvas id="canvas"></canvas>
 
-<!-- 远山 -->
 <svg class="mountains" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0,200 L0,140 Q80,80 160,120 Q240,160 320,100 Q400,40 480,90 Q560,140 640,80 Q720,20 800,70 Q880,120 960,60 Q1040,0 1120,50 Q1200,100 1280,60 Q1360,20 1440,80 L1440,200 Z" fill="#0a0f1a"/>
   <path d="M0,200 L0,165 Q120,130 240,155 Q360,180 480,145 Q600,110 720,150 Q840,190 960,155 Q1080,120 1200,155 Q1320,190 1440,160 L1440,200 Z" fill="#080c14"/>
 </svg>
 
-<!-- UI -->
+<!-- 全屏按钮 -->
+<button class="fullscreen-btn" id="fsBtn" title="全屏">
+  <svg id="fsIcon" viewBox="0 0 24 24">
+    <polyline points="15 3 21 3 21 9"/>
+    <polyline points="9 21 3 21 3 15"/>
+    <line x1="21" y1="3" x2="14" y2="10"/>
+    <line x1="3" y1="21" x2="10" y2="14"/>
+  </svg>
+</button>
+
 <div class="title">
   <h1>✨ 放 烟 花</h1>
   <p>Tonight is beautiful</p>
@@ -199,7 +213,7 @@
 
 <div class="ui">
   <div class="btn-wrap">
-    <button class="btn" id="fireBtn" onclick="launchFireworks()">
+    <button class="btn" id="fireBtn">
       <div class="btn-inner">🎆 放 烟 花</div>
     </button>
     <span class="hint">点击按钮，或点击夜空任意位置</span>
@@ -207,21 +221,32 @@
 </div>
 
 <script>
-// ===== 星空生成 =====
+// ===== 星空 =====
 const starsEl = document.getElementById('stars');
 for (let i = 0; i < 160; i++) {
   const s = document.createElement('div');
   s.className = 'star';
   const size = Math.random() * 2 + 0.5;
-  s.style.cssText = `
-    width:${size}px; height:${size}px;
-    top:${Math.random()*85}%;
-    left:${Math.random()*100}%;
-    --d:${(Math.random()*3+2).toFixed(1)}s;
-    animation-delay:${(Math.random()*4).toFixed(1)}s;
-  `;
+  s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*85}%;left:${Math.random()*100}%;--d:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*4).toFixed(1)}s;`;
   starsEl.appendChild(s);
 }
+
+// ===== 全屏 =====
+const fsEnterIcon = `<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>`;
+const fsExitIcon  = `<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>`;
+
+document.getElementById('fsBtn').addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  document.getElementById('fsIcon').innerHTML =
+    document.fullscreenElement ? fsExitIcon : fsEnterIcon;
+});
 
 // ===== 烟花引擎 =====
 const canvas = document.getElementById('canvas');
@@ -235,7 +260,6 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-// 调色板：温馨暖色 + 少量冷色点缀
 const PALETTES = [
   ['#ff9a3c','#ffcd3c','#ff6b35','#ffeaa7'],
   ['#fd79a8','#fdcb6e','#e17055','#fab1a0'],
@@ -246,216 +270,155 @@ const PALETTES = [
 ];
 
 class Particle {
-  constructor(x, y, color, vx, vy, size, life, gravity = 0.06, fade = 0.015) {
-    this.x = x; this.y = y;
-    this.color = color;
-    this.vx = vx; this.vy = vy;
-    this.size = size;
-    this.life = life; this.maxLife = life;
-    this.gravity = gravity;
-    this.fade = fade;
-    this.trail = [];
+  constructor(x,y,color,vx,vy,size,life,gravity=0.06,fade=0.015) {
+    Object.assign(this,{x,y,color,vx,vy,size,life,maxLife:life,gravity,fade});
+    this.trail=[];
   }
   update() {
-    this.trail.push({x: this.x, y: this.y});
-    if (this.trail.length > 6) this.trail.shift();
-    this.x += this.vx;
-    this.y += this.vy;
-    this.vy += this.gravity;
-    this.vx *= 0.98;
-    this.life -= this.fade;
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>6) this.trail.shift();
+    this.x+=this.vx; this.y+=this.vy;
+    this.vy+=this.gravity; this.vx*=0.98;
+    this.life-=this.fade;
   }
   draw() {
-    const alpha = Math.max(0, this.life / this.maxLife);
-    // 拖尾
-    for (let i = 0; i < this.trail.length; i++) {
-      const t = this.trail[i];
-      const ta = alpha * (i / this.trail.length) * 0.4;
+    const alpha=Math.max(0,this.life/this.maxLife);
+    for(let i=0;i<this.trail.length;i++){
+      const t=this.trail[i];
+      const ta=alpha*(i/this.trail.length)*0.4;
       ctx.beginPath();
-      ctx.arc(t.x, t.y, this.size * 0.6 * (i / this.trail.length), 0, Math.PI * 2);
-      ctx.fillStyle = this.color + Math.floor(ta * 255).toString(16).padStart(2,'0');
+      ctx.arc(t.x,t.y,this.size*0.6*(i/this.trail.length),0,Math.PI*2);
+      ctx.fillStyle=this.color+Math.floor(ta*255).toString(16).padStart(2,'0');
       ctx.fill();
     }
-    // 主粒子
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.color + Math.floor(alpha * 255).toString(16).padStart(2,'0');
-    ctx.shadowColor = this.color;
-    ctx.shadowBlur = this.size * 4;
-    ctx.fill();
-    ctx.shadowBlur = 0;
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle=this.color+Math.floor(alpha*255).toString(16).padStart(2,'0');
+    ctx.shadowColor=this.color; ctx.shadowBlur=this.size*4;
+    ctx.fill(); ctx.shadowBlur=0;
   }
-  isDead() { return this.life <= 0; }
+  isDead(){return this.life<=0;}
 }
 
 class Rocket {
-  constructor(x, targetY, color) {
-    this.x = x;
-    this.y = H + 10;
-    this.targetY = targetY;
-    this.color = color;
-    this.vy = -(H - targetY) / 40;
-    this.trail = [];
-    this.exploded = false;
+  constructor(x,targetY){
+    this.x=x; this.y=H+10; this.targetY=targetY;
+    this.vy=-(H-targetY)/40;
+    this.trail=[]; this.exploded=false;
   }
-  update() {
-    this.trail.push({x: this.x, y: this.y});
-    if (this.trail.length > 12) this.trail.shift();
-    this.x += (Math.random() - 0.5) * 0.8;
-    this.y += this.vy;
-    if (this.y <= this.targetY) {
-      this.exploded = true;
-      explode(this.x, this.y);
-    }
+  update(){
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>12) this.trail.shift();
+    this.x+=(Math.random()-0.5)*0.8;
+    this.y+=this.vy;
+    if(this.y<=this.targetY){this.exploded=true; explode(this.x,this.y);}
   }
-  draw() {
-    for (let i = 0; i < this.trail.length; i++) {
-      const t = this.trail[i];
-      const alpha = (i / this.trail.length) * 0.8;
-      const size = (i / this.trail.length) * 3;
+  draw(){
+    for(let i=0;i<this.trail.length;i++){
+      const t=this.trail[i];
       ctx.beginPath();
-      ctx.arc(t.x, t.y, size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,200,100,${alpha})`;
-      ctx.shadowColor = '#ffcd3c';
-      ctx.shadowBlur = 8;
+      ctx.arc(t.x,t.y,(i/this.trail.length)*3,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,200,100,${(i/this.trail.length)*0.8})`;
+      ctx.shadowColor='#ffcd3c'; ctx.shadowBlur=8;
       ctx.fill();
     }
-    ctx.shadowBlur = 0;
+    ctx.shadowBlur=0;
   }
 }
 
-const particles = [];
-const rockets = [];
+const particles=[], rockets=[];
 
-function explode(x, y) {
-  const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-  const type = Math.floor(Math.random() * 5);
-  const count = 100 + Math.floor(Math.random() * 80);
-
-  if (type === 0) {
-    // 圆形爆炸
-    for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2;
-      const speed = Math.random() * 4 + 1.5;
-      const color = palette[Math.floor(Math.random() * palette.length)];
-      particles.push(new Particle(x, y, color,
-        Math.cos(angle) * speed, Math.sin(angle) * speed,
-        Math.random() * 2.5 + 0.5, 1, 0.045, 0.012));
+function explode(x,y){
+  const palette=PALETTES[Math.floor(Math.random()*PALETTES.length)];
+  const type=Math.floor(Math.random()*5);
+  const count=100+Math.floor(Math.random()*80);
+  if(type===0){
+    for(let i=0;i<count;i++){
+      const angle=(i/count)*Math.PI*2, speed=Math.random()*4+1.5;
+      particles.push(new Particle(x,y,palette[Math.floor(Math.random()*palette.length)],
+        Math.cos(angle)*speed,Math.sin(angle)*speed,Math.random()*2.5+0.5,1,0.045,0.012));
     }
-  } else if (type === 1) {
-    // 菊花型：多环
-    for (let ring = 0; ring < 3; ring++) {
-      const n = 30 + ring * 20;
-      const speed = 2.5 + ring * 1.5;
-      const color = palette[ring % palette.length];
-      for (let i = 0; i < n; i++) {
-        const angle = (i / n) * Math.PI * 2;
-        particles.push(new Particle(x, y, color,
-          Math.cos(angle) * speed, Math.sin(angle) * speed,
-          2 - ring * 0.3, 1, 0.04 + ring * 0.005, 0.013));
+  } else if(type===1){
+    for(let ring=0;ring<3;ring++){
+      const n=30+ring*20,speed=2.5+ring*1.5,color=palette[ring%palette.length];
+      for(let i=0;i<n;i++){
+        const angle=(i/n)*Math.PI*2;
+        particles.push(new Particle(x,y,color,Math.cos(angle)*speed,Math.sin(angle)*speed,2-ring*0.3,1,0.04+ring*0.005,0.013));
       }
     }
-  } else if (type === 2) {
-    // 星形
-    const arms = 6;
-    for (let arm = 0; arm < arms; arm++) {
-      const base = (arm / arms) * Math.PI * 2;
-      const color = palette[arm % palette.length];
-      for (let j = 0; j < 15; j++) {
-        const angle = base + (Math.random() - 0.5) * 0.3;
-        const speed = 1.5 + j * 0.25;
-        particles.push(new Particle(x, y, color,
-          Math.cos(angle) * speed, Math.sin(angle) * speed,
-          2.5 - j * 0.1, 1, 0.04, 0.011));
+  } else if(type===2){
+    for(let arm=0;arm<6;arm++){
+      const base=(arm/6)*Math.PI*2,color=palette[arm%palette.length];
+      for(let j=0;j<15;j++){
+        const angle=base+(Math.random()-0.5)*0.3,speed=1.5+j*0.25;
+        particles.push(new Particle(x,y,color,Math.cos(angle)*speed,Math.sin(angle)*speed,2.5-j*0.1,1,0.04,0.011));
       }
     }
-  } else if (type === 3) {
-    // 瀑布型：向上喷出后下落
-    for (let i = 0; i < count; i++) {
-      const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.6;
-      const speed = Math.random() * 5 + 1;
-      const color = palette[Math.floor(Math.random() * palette.length)];
-      particles.push(new Particle(x, y, color,
-        Math.cos(angle) * speed, Math.sin(angle) * speed,
-        Math.random() * 2 + 0.5, 1, 0.07, 0.010));
+  } else if(type===3){
+    for(let i=0;i<count;i++){
+      const angle=-Math.PI/2+(Math.random()-0.5)*Math.PI*1.6,speed=Math.random()*5+1;
+      particles.push(new Particle(x,y,palette[Math.floor(Math.random()*palette.length)],
+        Math.cos(angle)*speed,Math.sin(angle)*speed,Math.random()*2+0.5,1,0.07,0.010));
     }
   } else {
-    // 闪光型：大量细小粒子
-    for (let i = 0; i < 200; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 6;
-      const color = palette[Math.floor(Math.random() * palette.length)];
-      particles.push(new Particle(x, y, color,
-        Math.cos(angle) * speed, Math.sin(angle) * speed,
-        Math.random() * 1.5 + 0.3, 1, 0.03 + Math.random() * 0.03, 0.015));
+    for(let i=0;i<200;i++){
+      const angle=Math.random()*Math.PI*2,speed=Math.random()*6;
+      particles.push(new Particle(x,y,palette[Math.floor(Math.random()*palette.length)],
+        Math.cos(angle)*speed,Math.sin(angle)*speed,Math.random()*1.5+0.3,1,0.03+Math.random()*0.03,0.015));
     }
   }
-
   // 中心闪光
-  for (let i = 0; i < 20; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    particles.push(new Particle(x, y, '#ffffff',
-      Math.cos(angle) * (Math.random() * 2), Math.sin(angle) * (Math.random() * 2),
-      Math.random() * 3 + 1, 1, 0.02, 0.03));
+  for(let i=0;i<20;i++){
+    const angle=Math.random()*Math.PI*2;
+    particles.push(new Particle(x,y,'#ffffff',
+      Math.cos(angle)*(Math.random()*2),Math.sin(angle)*(Math.random()*2),
+      Math.random()*3+1,1,0.02,0.03));
   }
 }
 
-function launchFireworks(targetX, targetY) {
-  const x = targetX || (W * 0.2 + Math.random() * W * 0.6);
-  const y = targetY || (H * 0.1 + Math.random() * H * 0.45);
-  const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-  const color = palette[0];
-  rockets.push(new Rocket(x, y, color));
-}
-
-function launchMultiple() {
-  const count = 2 + Math.floor(Math.random() * 3);
-  for (let i = 0; i < count; i++) {
-    setTimeout(() => launchFireworks(), i * 200);
+// 按钮：点一次放一次（2~4枚）
+document.getElementById('fireBtn').addEventListener('click', () => {
+  const count = 2 + Math.floor(Math.random()*3);
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      rockets.push(new Rocket(
+        W*0.2 + Math.random()*W*0.6,
+        H*0.1 + Math.random()*H*0.45
+      ));
+    }, i*200);
   }
-}
+});
 
-// 点击夜空放烟花
-canvas.addEventListener('click', (e) => {
-  launchFireworks(e.clientX, e.clientY - 50);
+// 点击夜空：排除按钮和全屏按钮
+document.addEventListener('click', (e) => {
+  if(e.target.closest('.btn-wrap') || e.target.closest('.fullscreen-btn')) return;
+  rockets.push(new Rocket(e.clientX, e.clientY - 30));
   createRipple(e.clientX, e.clientY);
 });
 
-function createRipple(x, y) {
-  const r = document.createElement('div');
-  r.className = 'ripple';
-  r.style.left = x + 'px';
-  r.style.top = y + 'px';
+function createRipple(x,y){
+  const r=document.createElement('div');
+  r.className='ripple';
+  r.style.left=x+'px'; r.style.top=y+'px';
   document.body.appendChild(r);
-  setTimeout(() => r.remove(), 800);
+  setTimeout(()=>r.remove(),800);
 }
 
-// 主循环
-function loop() {
-  ctx.fillStyle = 'rgba(3, 7, 18, 0.18)';
-  ctx.fillRect(0, 0, W, H);
-
-  // 更新火箭
-  for (let i = rockets.length - 1; i >= 0; i--) {
-    rockets[i].update();
-    rockets[i].draw();
-    if (rockets[i].exploded) rockets.splice(i, 1);
+function loop(){
+  ctx.fillStyle='rgba(3,7,18,0.18)';
+  ctx.fillRect(0,0,W,H);
+  for(let i=rockets.length-1;i>=0;i--){
+    rockets[i].update(); rockets[i].draw();
+    if(rockets[i].exploded) rockets.splice(i,1);
   }
-
-  // 更新粒子
-  for (let i = particles.length - 1; i >= 0; i--) {
-    particles[i].update();
-    particles[i].draw();
-    if (particles[i].isDead()) particles.splice(i, 1);
+  for(let i=particles.length-1;i>=0;i--){
+    particles[i].update(); particles[i].draw();
+    if(particles[i].isDead()) particles.splice(i,1);
   }
-
   requestAnimationFrame(loop);
 }
 loop();
-
-// 页面加载后自动放一波
-setTimeout(() => launchMultiple(), 800);
-setTimeout(() => launchMultiple(), 2200);
+// 不再自动放烟花，等待用户操作
 </script>
 </body>
 </html>
